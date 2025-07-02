@@ -8,8 +8,4 @@ import org.slf4j.Logger;
 public class Main {
     public static final String MODID = "morefeaturemod";
     private static final Logger LOGGER = LogUtils.getLogger();
-
-    public Main() {
-    }
-
 }

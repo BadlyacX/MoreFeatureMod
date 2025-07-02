@@ -71,14 +71,13 @@ public class EquipmentDurabilityOverlay {
                     int current = max - stack.getDamageValue();
                     int color = getDurabilityColor(current, max);
                     int textWidth = mc.font.width(String.valueOf(current));
-                    graphics.drawString(mc.font, String.valueOf(current), x + iconSize / 2 - textWidth, y + 18, color, true);
+                    graphics.drawString(mc.font, String.valueOf(current), x + iconSize / 2 - textWidth / 2, y + 18, color, true);
                 }
 
                 startY -= spacing;
             }
         }
     }
-
 
     private static int getDurabilityColor(int current, int max) {
         float ratio = (float) current / max;
