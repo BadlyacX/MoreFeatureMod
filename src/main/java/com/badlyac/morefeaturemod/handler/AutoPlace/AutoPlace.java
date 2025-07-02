@@ -1,6 +1,6 @@
 package com.badlyac.morefeaturemod.handler.AutoPlace;
 
-import com.badlyac.morefeaturemod.KeyBindings.KeyBindings;
+import com.badlyac.morefeaturemod.keybinding.KeyBindings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;

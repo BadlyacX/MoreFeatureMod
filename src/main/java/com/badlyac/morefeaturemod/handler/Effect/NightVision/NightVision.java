@@ -1,6 +1,6 @@
 package com.badlyac.morefeaturemod.handler.Effect.NightVision;
 
-import com.badlyac.morefeaturemod.KeyBindings.KeyBindings;
+import com.badlyac.morefeaturemod.keybinding.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

@@ -1,6 +1,6 @@
 package com.badlyac.morefeaturemod.handler;
 
-import com.badlyac.morefeaturemod.KeyBindings.KeyBindings;
+import com.badlyac.morefeaturemod.keybinding.KeyBindings;
 import com.badlyac.morefeaturemod.Main;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -14,5 +14,6 @@ public class ClientModHandlers {
         event.register(KeyBindings.INSTANCE.night_vision_key);
         event.register(KeyBindings.INSTANCE.auto_Detect_Nearby_Ore_key);
         event.register(KeyBindings.INSTANCE.auto_place_key);
+        event.register(KeyBindings.INSTANCE.toggle_equip_durability);
     }
 }

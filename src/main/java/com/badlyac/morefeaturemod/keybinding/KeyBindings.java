@@ -1,4 +1,4 @@
-package com.badlyac.morefeaturemod.KeyBindings;
+package com.badlyac.morefeaturemod.keybinding;
 
 
 import com.badlyac.morefeaturemod.Main;
@@ -27,6 +27,13 @@ public final class KeyBindings {
 
     public final KeyMapping auto_place_key = new KeyMapping(
             "key." + Main.MODID + ".auto_place",
+            KeyConflictContext.IN_GAME,
+            InputConstants.UNKNOWN,
+            CATEGORY
+    );
+
+    public final KeyMapping toggle_equip_durability = new KeyMapping(
+            "key." + Main.MODID + ".equip_durability",
             KeyConflictContext.IN_GAME,
             InputConstants.UNKNOWN,
             CATEGORY
