@@ -38,4 +38,11 @@ public final class KeyBindings {
             InputConstants.UNKNOWN,
             CATEGORY
     );
+
+    public final KeyMapping fast_place_key = new KeyMapping(
+            "key." + Main.MODID + ".fast_place",
+            KeyConflictContext.IN_GAME,
+            InputConstants.UNKNOWN,
+            CATEGORY
+    );
 }
