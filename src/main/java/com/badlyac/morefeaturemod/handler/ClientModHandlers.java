@@ -15,5 +15,6 @@ public class ClientModHandlers {
         event.register(KeyBindings.INSTANCE.auto_Detect_Nearby_Ore_key);
         event.register(KeyBindings.INSTANCE.auto_place_key);
         event.register(KeyBindings.INSTANCE.toggle_equip_durability);
+        event.register(KeyBindings.INSTANCE.toggle_light_key);
     }
 }

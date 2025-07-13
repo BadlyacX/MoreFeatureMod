@@ -45,4 +45,11 @@ public final class KeyBindings {
             InputConstants.UNKNOWN,
             CATEGORY
     );
+
+    public final KeyMapping toggle_light_key = new KeyMapping(
+      "key." + Main.MODID + ".toggle_light",
+            KeyConflictContext.IN_GAME,
+            InputConstants.UNKNOWN,
+            CATEGORY
+    );
 }
