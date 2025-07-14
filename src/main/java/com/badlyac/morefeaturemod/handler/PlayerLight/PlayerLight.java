@@ -5,6 +5,7 @@ import com.badlyac.morefeaturemod.keybinding.KeyBindings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -63,7 +65,7 @@ public class PlayerLight {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = 0; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
-                        BlockPos candidate = headPos.offset(dx, dy, dz);
+                        BlockPos candidate = headPos.offset(new Vec3i(dx, dy, dz));
                         if (canPlaceLight(level, candidate)) {
                             targetPos = candidate;
                             break outer;
