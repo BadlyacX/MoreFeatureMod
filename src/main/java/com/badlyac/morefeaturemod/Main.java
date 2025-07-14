@@ -1,6 +1,5 @@
 package com.badlyac.morefeaturemod;
 
-import com.badlyac.morefeaturemod.handler.PlayerLight.PlayerLight;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -14,6 +13,5 @@ public class Main {
 
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        PlayerLight.register(bus);
     }
 }

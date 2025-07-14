@@ -15,15 +15,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,19 +29,6 @@ import java.util.UUID;
 public class PlayerLight {
     public static final Map<UUID, Boolean> PLAYER_LIGHT_ENABLED = new HashMap<>();
     private static final Map<UUID, BlockPos> LAST_LIGHT_POS = new HashMap<>();
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Main.MODID);
-    public static final RegistryObject<Block> INVISIBLE_LIGHT_BLOCK = BLOCKS.register("invisible_light_block", () ->
-            new Block(BlockBehaviour.Properties.of()
-                    .lightLevel(state -> 15)
-                    .noCollission()
-                    .instabreak()
-                    .noOcclusion()
-                    .air())
-    );
-
-    public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
-    }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
@@ -66,7 +49,31 @@ public class PlayerLight {
         ServerPlayer player = (ServerPlayer) event.player;
         Level level = player.level();
         UUID uuid = player.getUUID();
-        BlockPos pos = player.blockPosition();
+        BlockPos headPos = player.blockPosition().above();
+        BlockPos footPos = player.blockPosition();
+        BlockPos targetPos = null;
+        BlockState state = level.getBlockState(headPos);
+
+        if (canPlaceLight(level, headPos)) {
+            targetPos = headPos;
+        } else if (canPlaceLight(level, footPos)) {
+            targetPos = footPos;
+        } else {
+            outer:
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = 0; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        BlockPos candidate = headPos.offset(dx, dy, dz);
+                        if (canPlaceLight(level, candidate)) {
+                            targetPos = candidate;
+                            break outer;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (targetPos == null) return;
 
         boolean holdingLight = isLightItem(player.getMainHandItem()) || isLightItem(player.getOffhandItem());
 
@@ -80,17 +87,16 @@ public class PlayerLight {
             return;
         }
 
-        if (lastPos != null && !lastPos.equals(pos)) {
+        if (lastPos != null && !lastPos.equals(targetPos)) {
             if (level.getBlockState(lastPos).getBlock() == Blocks.LIGHT) {
                 level.setBlockAndUpdate(lastPos, Blocks.AIR.defaultBlockState());
             }
         }
 
-        BlockState state = level.getBlockState(pos);
         if (state.isAir() || state.getBlock() == Blocks.LIGHT) {
             BlockState light = Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 15);
-            level.setBlockAndUpdate(pos, light);
-            LAST_LIGHT_POS.put(uuid, pos);
+            level.setBlockAndUpdate(targetPos, light);
+            LAST_LIGHT_POS.put(uuid, targetPos);
         }
     }
 
@@ -99,5 +105,10 @@ public class PlayerLight {
         Item item = stack.getItem();
         return item == Items.TORCH || item == Items.LANTERN || item == Items.GLOWSTONE ||
                 item == Items.REDSTONE_TORCH || item == Items.SOUL_TORCH || item == Items.SOUL_LANTERN;
+    }
+
+    private static boolean canPlaceLight(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        return state.isAir() || state.getBlock() == Blocks.LIGHT;
     }
 }
