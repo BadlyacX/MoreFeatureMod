@@ -56,42 +56,43 @@ public class NoHurtShakeClient {
     }
 
     @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-
-        dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("nohurtshake")
-                .executes(ctx -> {
-                    sayStatus();
-                    return 1;
-                })
-                .then(Commands.literal("get").executes(ctx -> {
-                    sayStatus();
-                    return 1;
-                }))
-                .then(Commands.literal("toggle").executes(ctx -> {
-                    boolean now = !NoHurtShakeConfig.enabled();
-                    NoHurtShakeConfig.setEnabled(now);
-                    say("NoHurtShake: " + (now ? "已啟用" : "已停用"));
-                    return 1;
-                }))
-                .then(Commands.literal("on").executes(ctx -> {
-                    NoHurtShakeConfig.setEnabled(true);
-                    say("NoHurtShake: 已啟用");
-                    return 1;
-                }))
-                .then(Commands.literal("off").executes(ctx -> {
-                    NoHurtShakeConfig.setEnabled(false);
-                    say("NoHurtShake: 已停用");
-                    return 1;
-                }))
-                .then(Commands.literal("set")
-                        .then(Commands.argument("value", FloatArgumentType.floatArg(0.0f, 1.0f))
-                                .executes(ctx -> {
-                                    float v = FloatArgumentType.getFloat(ctx, "value");
-                                    NoHurtShakeConfig.setIntensity(v);
-                                    say(String.format("NoHurtShake: 強度已設為 %.2f（0=無晃動，1=原版）", v));
-                                    return 1;
-                                }))));
+    public static void onRegisterClientCommands(RegisterCommandsEvent e) {
+        e.getDispatcher().register(
+                Commands.literal("nohurtshake")
+                        .executes(ctx -> {
+                            sayStatus();
+                            return 1;
+                        })
+                        .then(Commands.literal("get").executes(ctx -> {
+                            sayStatus();
+                            return 1;
+                        }))
+                        .then(Commands.literal("toggle").executes(ctx -> {
+                            boolean now = !NoHurtShakeConfig.enabled();
+                            NoHurtShakeConfig.setEnabled(now);
+                            say("NoHurtShake: " + (now ? "已啟用" : "已停用"));
+                            return 1;
+                        }))
+                        .then(Commands.literal("on").executes(ctx -> {
+                            NoHurtShakeConfig.setEnabled(true);
+                            say("NoHurtShake: 已啟用");
+                            return 1;
+                        }))
+                        .then(Commands.literal("off").executes(ctx -> {
+                            NoHurtShakeConfig.setEnabled(false);
+                            say("NoHurtShake: 已停用");
+                            return 1;
+                        }))
+                        .then(Commands.literal("set").then(
+                                Commands.argument("value", FloatArgumentType.floatArg(0.0f, 1.0f))
+                                        .executes(ctx -> {
+                                            float v = FloatArgumentType.getFloat(ctx, "value");
+                                            NoHurtShakeConfig.setIntensity(v);
+                                            say(String.format("NoHurtShake: 強度已設為 %.2f（0=無晃動，1=原版）", v));
+                                            return 1;
+                                        })
+                        ))
+        );
     }
 
     private static void sayStatus() {
