@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = Main.MODID)
 public class Afk {
 

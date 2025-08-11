@@ -52,4 +52,11 @@ public final class KeyBindings {
             InputConstants.UNKNOWN,
             CATEGORY
     );
+
+    public final KeyMapping toggle_no_hurt_shake_key = new KeyMapping(
+            "key." + Main.MODID + ".toggle_no_hurt_shake",
+            KeyConflictContext.IN_GAME,
+            InputConstants.UNKNOWN,
+            CATEGORY
+    );
 }
